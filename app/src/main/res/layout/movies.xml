@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#333E54"
+    android:padding="10dp">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_list_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="38dp"
+        android:padding="5dp"
+        android:footerDividersEnabled="false"
+        android:background="#D05158" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="                   MOVIES                          "
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:background="#D05158"
+        android:textColor="#D8D8D8"
+        android:textStyle="bold"
+        android:typeface="normal"
+        android:textSize="25dp"
+        android:textAlignment="center" />
+
+</RelativeLayout>

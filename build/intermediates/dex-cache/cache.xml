@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\build\intermediates\pre-dexed\debug\support-v4-19.0.1-c4144c73ebcd28c87a4cf9fd480f984ead32920f.jar"
+        jar="C:\Users\Orlando\Downloads\DEV_TOOLS\adt-bundle-windows-x86_64-20131030\adt-bundle-windows-x86_64-20131030\sdk\extras\android\m2repository\com\android\support\support-v4\19.0.1\support-v4-19.0.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="587da9a481ffd341d2fa091704489b89845ddacd"/>
+    <item
+        dex="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\build\intermediates\pre-dexed\debug\classes-3071a6db23f11cf707d1aa97e5fe6f7bbce59b21.jar"
+        jar="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.0.1\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f71a6822470c9eb659d4f4a6cb57b780b35f058b"/>
+
+</pre-dex-items>
