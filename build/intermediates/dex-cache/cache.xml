@@ -2,6 +2,12 @@
 <pre-dex-items>
 
     <item
+        dex="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\build\intermediates\pre-dexed\debug\socketio-5a88bd57e3a1d690d25521a18d4312cf934fa5e9.jar"
+        jar="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\libs\socketio.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="4bdd77c3edd610fdc59f015a0eb06e20c859eae0"/>
+    <item
         dex="C:\Users\Orlando\Dropbox\online courses\ANDROID\capstoneApp\app\build\intermediates\pre-dexed\debug\support-v4-19.0.1-c4144c73ebcd28c87a4cf9fd480f984ead32920f.jar"
         jar="C:\Users\Orlando\Downloads\DEV_TOOLS\adt-bundle-windows-x86_64-20131030\adt-bundle-windows-x86_64-20131030\sdk\extras\android\m2repository\com\android\support\support-v4\19.0.1\support-v4-19.0.1.jar"
         jumboMode="false"

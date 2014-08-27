@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+
+
 public class MovieList extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] movieTitles;
@@ -22,6 +24,7 @@ public class MovieList extends ArrayAdapter<String> {
         this.context = context;
         this.movieTitles = movieTitles;
         this.thumbnailID = thumbnailID;
+
     }
 
 
@@ -29,6 +32,7 @@ public class MovieList extends ArrayAdapter<String> {
     public View getView(int key, View view, ViewGroup parent){
         LayoutInflater inflater = context.getLayoutInflater();
         ImageView movieThumbnail = null;
+        //SocketIO socket = new SocketIO("http://127.0.0.1:3001/");
 
         View movieRow = inflater.inflate(R.layout.movie_single_row, null, true);
         //View movieRow = LayoutInflater.from(context).inflate(R.layout.movie_single_row, null);
@@ -37,8 +41,6 @@ public class MovieList extends ArrayAdapter<String> {
         movieTitle.setText(movieTitles[key]);
         movieThumbnail.setImageResource(thumbnailID[key]);
         return movieRow;
-
-
 
     }
 

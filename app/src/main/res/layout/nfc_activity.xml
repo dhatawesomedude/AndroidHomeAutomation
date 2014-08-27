@@ -2,7 +2,9 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D8D8D8"
+    >
 
     <EditText
         android:layout_width="match_parent"
@@ -18,7 +20,8 @@
         android:columnCount="2"
         android:orientation="horizontal"
         android:id="@+id/ui_grid"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        >
 
         <Button
             android:layout_width="169dp"
@@ -31,7 +34,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="#D8D8D8"
+            android:textSize="25dp"
+            android:background="@drawable/content_dropshadow"/>
 
         <Button
             android:layout_width="169dp"
@@ -44,7 +50,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Lights" />
+            android:text="Lights"
+            android:textColor="#D8D8D8"
+            android:textSize="25dp"
+            android:background="@drawable/content_dropshadow"/>
 
         <Button
             android:layout_width="357dp"
@@ -59,7 +68,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:layout_columnSpan="2"
-            android:hint="check alarm system status" />
+            android:hint="check alarm system status"
+            android:textColor="#D8D8D8"
+            android:textSize="25dp"
+            android:background="@drawable/content_dropshadow"/>
 
         <Button
             android:layout_width="169dp"
@@ -72,7 +84,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="#D8D8D8"
+            android:textSize="25dp"
+            android:background="@drawable/content_dropshadow"/>
 
         <Button
             android:layout_width="169dp"
@@ -85,7 +100,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="#D8D8D8"
+            android:textSize="25dp"
+            android:background="@drawable/content_dropshadow"/>
 
     </GridLayout>
 </LinearLayout>
