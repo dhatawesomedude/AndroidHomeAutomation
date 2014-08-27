@@ -3,6 +3,7 @@ package com.example.capstoneapp.app;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,9 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 
@@ -29,6 +34,7 @@ import io.socket.SocketIOException;
 public class MovieActivity extends Activity {
 
     private TextView moviePlaying;
+    NdefMessage msgs[];
    ListView movieListView;
     String[] movieTitles = {
             "Major Crimes",
@@ -63,6 +69,44 @@ public class MovieActivity extends Activity {
                 new RecSockets().execute("hello");
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+       String results;
+
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
+            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMsgs != null){
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++){
+                    msgs[i] = (NdefMessage) rawMsgs[i];
+                    NdefRecord[] records = msgs[i].getRecords();
+                    for(NdefRecord ndefRecord : records){
+                        if(ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN){
+                            try{
+                                readText(ndefRecord);
+                                Toast.makeText(MovieActivity.this, readText(ndefRecord), Toast.LENGTH_SHORT).show();
+                            }catch (UnsupportedEncodingException e) {
+                                Log.e("NFC", "Unsupported Encoding", e);
+                            }
+                        }
+                    }
+                            //Toast.makeText(MovieActivity.this, msgs[i].toString(), Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(MovieActivity.this, msgs.toString(), Toast.LENGTH_LONG).show();
+                Log.d("NFC", msgs.toString());
+            }
+        }
+
+    }
+
+    private String readText(NdefRecord record) throws UnsupportedEncodingException{
+        byte [] payload = record.getPayload();
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+        int languageCodeLength = payload[0] & 0063;
+        return new String(payload, languageCodeLength+1, payload.length - languageCodeLength - 1, textEncoding);
     }
 
     class RecSockets extends AsyncTask<String, Integer, String> {
