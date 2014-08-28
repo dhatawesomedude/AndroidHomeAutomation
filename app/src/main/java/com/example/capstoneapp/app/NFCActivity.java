@@ -26,9 +26,17 @@ public class NFCActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nfc_activity);
 
-        final Button musicButton = (Button) findViewById(R.id.movie_button);
+        final Button movieButton = (Button) findViewById(R.id.movie_button);
+        final Button musicButton = (Button) findViewById(R.id.music_button);
 
-        musicButton.setOnClickListener(new View.OnClickListener(){
+        musicButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent music_intent = new Intent(NFCActivity.this, MusicActivity.class);
+                startActivity(music_intent);
+            }
+        });
+
+        movieButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent movie_Intent = new Intent(NFCActivity.this, MovieActivity.class);
                 startActivity(movie_Intent);
@@ -52,10 +60,12 @@ public class NFCActivity extends Activity{
                         if(ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN){
                             try{
                                 String receivedText = readText(ndefRecord);
+                                sendNFCIntent(receivedText);
                                 //Toast.makeText(NFCActivity.this, readText(ndefRecord), Toast.LENGTH_SHORT).show();
-                                Intent movie_Intent = new Intent(NFCActivity.this, MovieActivity.class);
+
+                                /*Intent movie_Intent = new Intent(NFCActivity.this, MovieActivity.class);
                                 movie_Intent.putExtra("MOVIE", receivedText);
-                                startActivity(movie_Intent);
+                                startActivity(movie_Intent);*/
                             }catch (UnsupportedEncodingException e) {
                                 Log.e("NFC", "Unsupported Encoding", e);
                             }
@@ -67,6 +77,23 @@ public class NFCActivity extends Activity{
             }
         }
 
+    }
+
+    private void sendNFCIntent(String receivedText){
+
+        if (receivedText.contains("music")){
+            Intent new_Intent = new Intent(NFCActivity.this, MovieActivity.class);
+            new_Intent.putExtra("MOVIE", receivedText);
+            startActivity(new_Intent);
+        }
+        else if (receivedText.contains("music")){
+            Intent new_Intent = new Intent(NFCActivity.this, MusicActivity.class);
+            new_Intent.putExtra("MUSIC", receivedText);
+            startActivity(new_Intent);
+        }
+        else {
+            Toast.makeText(NFCActivity.this, "There is no record of this NFC tag", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String readText(NdefRecord record) throws UnsupportedEncodingException{
