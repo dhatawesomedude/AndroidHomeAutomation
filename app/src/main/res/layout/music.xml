@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#333E54"
+    android:padding="10dp">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/music_list_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="38dp"
+        android:padding="5dp"
+        android:footerDividersEnabled="false"
+        android:background="#333E54"
+        android:layout_marginBottom="100dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="                   MOVIES                          "
+        android:id="@+id/musicHeader"
+        android:layout_alignParentTop="true"
+        android:background="#D05158"
+        android:textColor="#D8D8D8"
+        android:textStyle="bold"
+        android:typeface="normal"
+        android:textSize="25dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_now_playing"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/movie_now_playing"
+        android:layout_alignTop="@+id/music_list_view"
+        android:layout_marginTop="410dp"
+        android:background="#D8D8D8"
+        android:textColor="#D05158" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="              NOW PLAYING                          "
+        android:id="@+id/now_playing_header_music"
+        android:background="#D05158"
+        android:textColor="#D8D8D8"
+        android:textStyle="bold"
+        android:typeface="normal"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:layout_alignBottom="@+id/movie_now_playing"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="57dp"
+        android:layout_alignTop="@+id/movie_list_view"
+        android:layout_marginTop="364dp" />
+
+</RelativeLayout>
