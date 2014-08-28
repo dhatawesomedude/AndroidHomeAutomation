@@ -1,6 +1,7 @@
 package com.example.capstoneapp.app;
 
 import android.app.Activity;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,8 +16,13 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
@@ -35,10 +41,11 @@ public class MovieActivity extends Activity {
 
     private TextView moviePlaying;
     NdefMessage msgs[];
+    private String data = " ";
    ListView movieListView;
     String[] movieTitles = {
             "Major Crimes",
-            "Twenty Four (24)",
+            "Twenty Four(24)",
             "Suits",
             "Power",
             "Hello Cupid"
@@ -66,40 +73,40 @@ public class MovieActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MovieActivity.this, "You selected" +movieTitles[position], Toast.LENGTH_SHORT).show();
                 PlayNotificationActivity notification = new PlayNotificationActivity(MovieActivity.this, movieTitles[position],thumbnailID[position]);
-                new RecSockets().execute("hello");
+                //new RecSockets().execute("hello");
+                //String movieName = movieTitles[position].split(" ", 2)[0] + "%20" + movieTitles[position].split(" ", 2)[1];
+                String movieName = convertMovieTitle(movieTitles[position]);
+                new HttpGetTask().execute(movieName);
             }
         });
+    }
+
+    private String convertMovieTitle(String name){
+        String movieName = name;
+        if (movieName.indexOf(' ') != -1){
+            return movieName.split(" ", 2)[0] + "%20" + movieName.split(" ", 2)[1];
+            //return originalName;
+        }
+        else return movieName;
     }
 
     @Override
     public void onResume(){
         super.onResume();
-       String results;
 
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
-            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            if (rawMsgs != null){
-                msgs = new NdefMessage[rawMsgs.length];
-                for (int i = 0; i < rawMsgs.length; i++){
-                    msgs[i] = (NdefMessage) rawMsgs[i];
-                    NdefRecord[] records = msgs[i].getRecords();
-                    for(NdefRecord ndefRecord : records){
-                        if(ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN){
-                            try{
-                                readText(ndefRecord);
-                                Toast.makeText(MovieActivity.this, readText(ndefRecord), Toast.LENGTH_SHORT).show();
-                            }catch (UnsupportedEncodingException e) {
-                                Log.e("NFC", "Unsupported Encoding", e);
-                            }
-                        }
-                    }
-                            //Toast.makeText(MovieActivity.this, msgs[i].toString(), Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(MovieActivity.this, msgs.toString(), Toast.LENGTH_LONG).show();
-                Log.d("NFC", msgs.toString());
+        try {
+            if (getIntent().getExtras().getString("MOVIE") != null) {
+                data = getIntent().getExtras().getString("MOVIE");
+                Toast.makeText(MovieActivity.this, data, Toast.LENGTH_SHORT).show();
+                movieListView.requestFocusFromTouch();
+                movieListView.setSelection(0);
+                movieListView.performItemClick(movieListView.getAdapter().getView(0, null, null), 0, movieListView.getItemIdAtPosition(3));
             }
         }
-
+        catch(NullPointerException e){
+            Log.e("ERROR", e.toString());
+            e.printStackTrace();
+        }
     }
 
     private String readText(NdefRecord record) throws UnsupportedEncodingException{
@@ -109,15 +116,63 @@ public class MovieActivity extends Activity {
         return new String(payload, languageCodeLength+1, payload.length - languageCodeLength - 1, textEncoding);
     }
 
-    class RecSockets extends AsyncTask<String, Integer, String> {
+    private class HttpGetTask extends AsyncTask<String, Void, String> {
+
+        private static final String TAG = "HttpGetTask";
+
+        // Get your own user name at http://www.geonames.org/login
+        private static final String MOVIE_NAME = "movie-major crimes";
+
+        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=movie-major%20crimes";
+               // + MOVIE_NAME;
+
+        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String MOVIE = params[0];
+            String MOVIE_URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg="+MOVIE;
+            HttpGet request = new HttpGet(MOVIE_URL);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+
+            try {
+
+                return mClient.execute(request, responseHandler);
+
+            } catch (ClientProtocolException exception) {
+                exception.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            moviePlaying.setVisibility(TextView.INVISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (null != mClient)
+                mClient.close();
+
+            moviePlaying.setVisibility(TextView.VISIBLE);
+            moviePlaying.setText(result);
+
+        }
+    }
+/*    class RecSockets extends AsyncTask<String, Integer, String> {
 
         private SocketIO socket;
 
 
-        /*@Override
+        *//*@Override
         protected void onPreExecute() {
             super.onPreExecute();
-        }*/
+        }*//*
 
         @Override
         protected String doInBackground(String... params) {
@@ -214,7 +269,7 @@ public class MovieActivity extends Activity {
             }
         }
 
-    }
+    }*/
 
 
 }
