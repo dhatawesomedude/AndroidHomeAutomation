@@ -8,17 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
 
 /**
  * Created by Orlando on 24/7/2014.
@@ -28,7 +20,7 @@ public class PlayNotificationActivity {
     private static final int MY_NOTIFICATION_ID = 129;
 
     ///Notification Text Elements
-    private  CharSequence tickerText = "Movie now playing!";
+    private  CharSequence tickerText = " now playing!";
     private final CharSequence contentTitle = "NFC-Automation";
     private final CharSequence contentText = "Movie Plays";
 
@@ -48,15 +40,18 @@ public class PlayNotificationActivity {
         playContentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, playNotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Notification expanded View;
-        playContentView.setTextViewText(R.id.play_notification_text, contentText);
+        //playContentView.setImageViewResource(R.id.play_notification_text, thumbnailID);
+        playContentView.setTextViewText(R.id.play_notification_text, movieTitle+tickerText);
 
         //Build Notification
+        //NotificationCompat.Builder
         Notification.Builder playNotificationBuilder = new Notification.Builder(
                 context.getApplicationContext())
-                .setTicker(tickerText)
-                .setSmallIcon(android.R.drawable.stat_sys_speakerphone)
+                .setTicker(movieTitle + tickerText)
+                .setSmallIcon(thumbnailID)
                 .setVibrate(playVibratePattern)
-                .setContent(playContentView);
+                .setContent(playContentView)
+                .setContentText("This movie is playing properly");
 
         //Begin Thread
         //new RecSockets().execute(movieTitle);
