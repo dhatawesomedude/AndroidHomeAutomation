@@ -28,6 +28,7 @@ public class NFCActivity extends Activity{
 
         final Button movieButton = (Button) findViewById(R.id.movie_button);
         final Button musicButton = (Button) findViewById(R.id.music_button);
+        final Button lightButton = (Button) findViewById(R.id.light_button);
 
         musicButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -36,12 +37,21 @@ public class NFCActivity extends Activity{
             }
         });
 
+
         movieButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent movie_Intent = new Intent(NFCActivity.this, MovieActivity.class);
                 startActivity(movie_Intent);
             }
         });
+
+        lightButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent light_intent = new Intent(NFCActivity.this, LightActivity.class);
+                startActivity(light_intent);
+           }
+        });
+
     }
 
     @Override
@@ -73,7 +83,6 @@ public class NFCActivity extends Activity{
                     }
                     //Toast.makeText(MovieActivity.this, msgs[i].toString(), Toast.LENGTH_LONG).show();
                 }
-                ;
             }
         }
 
@@ -81,7 +90,7 @@ public class NFCActivity extends Activity{
 
     private void sendNFCIntent(String receivedText){
 
-        if (receivedText.contains("music")){
+        if (receivedText.contains("movie")){
             Intent new_Intent = new Intent(NFCActivity.this, MovieActivity.class);
             new_Intent.putExtra("MOVIE", receivedText);
             startActivity(new_Intent);
@@ -89,6 +98,11 @@ public class NFCActivity extends Activity{
         else if (receivedText.contains("music")){
             Intent new_Intent = new Intent(NFCActivity.this, MusicActivity.class);
             new_Intent.putExtra("MUSIC", receivedText);
+            startActivity(new_Intent);
+        }
+        else if(receivedText.contains("light")){
+            Intent new_Intent = new Intent(NFCActivity.this, LightActivity.class);
+            new_Intent.putExtra("LIGHT", receivedText);
             startActivity(new_Intent);
         }
         else {
