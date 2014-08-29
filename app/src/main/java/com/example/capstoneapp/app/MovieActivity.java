@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import io.socket.SocketIOException;
 public class MovieActivity extends Activity {
 
     private TextView moviePlaying;
+
     NdefMessage msgs[];
     private String data = " ";
    ListView movieListView;
@@ -65,6 +67,9 @@ public class MovieActivity extends Activity {
         setContentView(R.layout.movies);
         MovieList adapter = new MovieList(MovieActivity.this, movieTitles, thumbnailID);
 
+        Button stopButton = (Button)findViewById(R.id.movie_stop);
+        Button pauseButton = (Button)findViewById(R.id.movie_pause);
+
         moviePlaying = (TextView)findViewById(R.id.music_now_playing);
         movieListView = (ListView)findViewById(R.id.movie_list_view);
         movieListView.setAdapter(adapter);
@@ -77,6 +82,19 @@ public class MovieActivity extends Activity {
                 //String movieName = movieTitles[position].split(" ", 2)[0] + "%20" + movieTitles[position].split(" ", 2)[1];
                 String movieName = convertMovieTitle(movieTitles[position]);
                 new HttpGetTask().execute(movieName);
+            }
+        });
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new HttpGetTask().execute("pause");
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new HttpGetTask().execute("stop");
             }
         });
     }

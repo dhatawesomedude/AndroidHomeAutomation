@@ -63,4 +63,22 @@
         android:layout_alignTop="@+id/movie_list_view"
         android:layout_marginTop="364dp" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAUSE"
+        android:id="@+id/movie_pause"
+        android:layout_alignBottom="@+id/music_now_playing"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/movie_stop"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/movie_pause" />
+
 </RelativeLayout>
