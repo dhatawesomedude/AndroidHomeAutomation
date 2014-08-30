@@ -81,7 +81,7 @@ public class MovieActivity extends Activity {
                 //new RecSockets().execute("hello");
                 //String movieName = movieTitles[position].split(" ", 2)[0] + "%20" + movieTitles[position].split(" ", 2)[1];
                 String movieName = convertMovieTitle(movieTitles[position]);
-                new HttpGetTask().execute(movieName);
+                new HttpGetTask().execute("movie");
             }
         });
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +141,7 @@ public class MovieActivity extends Activity {
         // Get your own user name at http://www.geonames.org/login
         private static final String MOVIE_NAME = "movie-major crimes";
 
-        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=movie-major%20crimes";
+        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=movie";
                // + MOVIE_NAME;
 
         AndroidHttpClient mClient = AndroidHttpClient.newInstance("");

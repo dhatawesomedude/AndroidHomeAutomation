@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="                   MOVIES                          "
+        android:text="                   MUSIC                          "
         android:id="@+id/musicHeader"
         android:layout_alignParentTop="true"
         android:background="#D05158"
@@ -39,7 +39,7 @@
         android:id="@+id/movie_now_playing"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/movie_now_playing"
+        android:layout_alignRight="@+id/now_playing_header_music"
         android:layout_alignTop="@+id/music_list_view"
         android:layout_marginTop="410dp"
         android:background="#D8D8D8"
@@ -62,5 +62,23 @@
         android:layout_marginBottom="57dp"
         android:layout_alignTop="@+id/movie_list_view"
         android:layout_marginTop="364dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAUSE"
+        android:id="@+id/music_pause"
+        android:layout_alignBottom="@+id/movie_now_playing"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/music_stop"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/music_pause" />
 
 </RelativeLayout>

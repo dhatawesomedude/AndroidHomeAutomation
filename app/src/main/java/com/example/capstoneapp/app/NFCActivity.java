@@ -6,16 +6,25 @@ package com.example.capstoneapp.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.http.AndroidHttpClient;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class NFCActivity extends Activity{
@@ -100,10 +109,25 @@ public class NFCActivity extends Activity{
             new_Intent.putExtra("MUSIC", receivedText);
             startActivity(new_Intent);
         }
-        else if(receivedText.contains("light")){
+        else if(receivedText.contains("lighton")){
             Intent new_Intent = new Intent(NFCActivity.this, LightActivity.class);
             new_Intent.putExtra("LIGHT", receivedText);
             startActivity(new_Intent);
+        }
+        else if(receivedText.contains("pause")){
+            /*Intent new_Intent = new Intent(NFCActivity.this, LightActivity.class);
+            new_Intent.putExtra("LIGHT", receivedText);
+            startActivity(new_Intent);*/
+            new HttpGetTask().execute("pause");
+        }
+        else if(receivedText.contains("stop")){
+           /* Intent new_Intent = new Intent(NFCActivity.this, LightActivity.class);
+            new_Intent.putExtra("LIGHT", receivedText);
+            startActivity(new_Intent);*/
+            new HttpGetTask().execute("stop");
+        }
+        else if(receivedText.contains("lightoff")){
+            new HttpGetTask().execute("lampoff");
         }
         else {
             Toast.makeText(NFCActivity.this, "There is no record of this NFC tag", Toast.LENGTH_SHORT).show();
@@ -115,5 +139,47 @@ public class NFCActivity extends Activity{
         String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
         int languageCodeLength = payload[0] & 0063;
         return new String(payload, languageCodeLength+1, payload.length - languageCodeLength - 1, textEncoding);
+    }
+
+    private class HttpGetTask extends AsyncTask<String, Void, String> {
+
+        private static final String TAG = "HttpGetTask";
+
+        // Get your own user name at http://www.geonames.org/login
+        private static final String MOVIE_NAME = "movie-major crimes";
+
+        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=music";
+        // + MOVIE_NAME;
+
+        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String MUSIC = params[0];
+            String MUSIC_URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg="+ MUSIC;
+            HttpGet request = new HttpGet(MUSIC_URL);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+
+            try {
+
+                return mClient.execute(request, responseHandler);
+
+            } catch (ClientProtocolException exception) {
+                exception.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+        }
     }
 }

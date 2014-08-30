@@ -1,11 +1,14 @@
 package com.example.capstoneapp.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,19 +29,19 @@ public class MusicActivity extends Activity{
     private String data = " ";
     ListView musicListView;
     String[] movieTitles = {
-            "music1",
-            "music)",
-            "music1",
             "music",
-            "music1"
+            "music",
+            "music",
+            "music",
+            "music"
     };
 
     Integer[] thumbnailID = {
-            R.drawable.major_crimes,
-            R.drawable.twenty_four,
-            R.drawable.suits,
-            R.drawable.power,
-            R.drawable.hello_cupid
+            R.drawable.music_icon,
+            R.drawable.music_logo,
+            R.drawable.music_icon,
+            R.drawable.music_logo,
+            R.drawable.music_icon
     };
 
     @Override
@@ -47,6 +50,9 @@ public class MusicActivity extends Activity{
         setContentView(R.layout.music);
         MovieList adapter = new MovieList(MusicActivity.this, movieTitles, thumbnailID);
 
+
+        Button stopButton = (Button)findViewById(R.id.music_stop);
+        Button pauseButton = (Button)findViewById(R.id.music_pause);
         musicPlaying = (TextView)findViewById(R.id.movie_now_playing);
         musicListView = (ListView)findViewById(R.id.music_list_view);
         musicListView.setAdapter(adapter);
@@ -58,10 +64,60 @@ public class MusicActivity extends Activity{
                 //new RecSockets().execute("hello");
                 //String movieName = movieTitles[position].split(" ", 2)[0] + "%20" + movieTitles[position].split(" ", 2)[1];
                 String movieName = convertMusicTitle(movieTitles[position]);
-                new HttpGetTask().execute(movieName);
+                new HttpGetTask().execute("music");
             }
         });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new HttpGetTask().execute("pause");
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new HttpGetTask().execute("stop");
+            }
+        });
+        playIntent(getIntent());
     }
+
+    public void playIntent(Intent intent){
+        try {
+            if (intent.getExtras().getString("MUSIC") != null) {
+                data = intent.getExtras().getString("MUSIC");
+                Toast.makeText(MusicActivity.this, data, Toast.LENGTH_SHORT).show();
+                musicListView.requestFocusFromTouch();
+                musicListView.setSelection(0);
+                musicListView.performItemClick(musicListView.getAdapter().getView(0, null, null), 0, musicListView.getItemIdAtPosition(3));
+            }
+        }
+        catch(NullPointerException e){
+            Log.e("ERROR", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+   /* @Override
+    public void onResume(){
+        super.onResume();
+
+        try {
+            if (getIntent().getExtras().getString("MUSIC") != null) {
+                data = getIntent().getExtras().getString("MUSIC");
+                Toast.makeText(MusicActivity.this, data, Toast.LENGTH_SHORT).show();
+                musicListView.requestFocusFromTouch();
+                musicListView.setSelection(0);
+                musicListView.performItemClick(musicListView.getAdapter().getView(0, null, null), 0, musicListView.getItemIdAtPosition(3));
+            }
+        }
+        catch(NullPointerException e){
+            Log.e("ERROR", e.toString());
+            e.printStackTrace();
+        }
+    }*/
 
     private String convertMusicTitle(String name){
         String movieName = name;
@@ -79,7 +135,7 @@ public class MusicActivity extends Activity{
         // Get your own user name at http://www.geonames.org/login
         private static final String MOVIE_NAME = "movie-major crimes";
 
-        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=movie-major%20crimes";
+        private static final String URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=music";
         // + MOVIE_NAME;
 
         AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
@@ -88,7 +144,7 @@ public class MusicActivity extends Activity{
         protected String doInBackground(String... params) {
 
             String MUSIC = params[0];
-            String MUSIC_URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg=" + "play"+MUSIC;
+            String MUSIC_URL = "http://mmu-foe-capstone.appspot.com/control?group=22&msg="+ MUSIC;
             HttpGet request = new HttpGet(MUSIC_URL);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
